@@ -4,47 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hakeem Support AI</title>
-  <link rel="stylesheet" href="css/support.css">
-  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- HERO SECTION -->
   <header class="hero">
     <div class="hero-content">
-      <img src="assets/logo.svg" class="logo-svg" alt="Hakeem Support AI Logo">
+      <!-- INLINE SVG LOGO -->
+      <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#d946ef"/> <!-- Neon Pink -->
+            <stop offset="1" stop-color="#8b5cf6"/> <!-- Violet -->
+          </linearGradient>
+        </defs>
+      </svg>
+
       <h1>Hakeem Support AI</h1>
       <p>
-        Hakeem Support AI is your professional AI-powered customer support hub. 
-        Ask questions about my software tools, automation workflows, or productivity resources. 
-        Get instant answers, download helpful files, and navigate a clean, modern interface.
-        This platform is designed to showcase my work professionally while providing useful resources
-        in an easy-to-use chat environment.
+        Welcome to the next generation of customer support. 
+        Instant answers, automated workflows, and seamless file transfers. 
+        Ask me anything about our software ecosystem.
       </p>
     </div>
   </header>
 
   <!-- SECTION TITLE -->
-  <h2 class="section-title">Customer Support Chat</h2>
+  <h2 class="section-title">Live Support</h2>
 
   <!-- CHAT SECTION -->
   <section class="chat-section">
     <div class="chat-container">
-      <div id="chat-box" class="chat-box">
-        <!-- Messages will appear here dynamically -->
+      
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="status-dot"></div>
+        <span>AI Assistant Online</span>
       </div>
+
+      <div id="chat-box" class="chat-box">
+        <!-- Initial Welcome Message -->
+        <div class="message ai">
+          <div class="avatar">🤖</div>
+          <div class="bubble">
+            Hello! I am Hakeem AI. Try asking for a <b>guide</b> or our <b>pricing</b>.
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div id="typing-indicator" class="typing-indicator">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
       <div class="chat-input">
-        <input type="text" id="user-input" placeholder="Type your question..." />
-        <button id="send-btn">Send</button>
+        <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off" />
+        <button id="send-btn">
+          <!-- Send Icon SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    © 2026 Hakeem Shaik • Built with HTML, CSS & JS
+    © 2026 Hakeem Shaik • Premium AI Solutions
   </footer>
 
-  <script src="js/support.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
