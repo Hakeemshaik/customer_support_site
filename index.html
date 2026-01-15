@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hakeem Support AI</title>
-  <!-- Importing a cool tech font -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <title>Hakeem AI Support</title>
+  <!-- Professional Tech Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   
   <style>
-    /* --- CSS STARTS HERE --- */
-    
-    /* 1. RESET & BASIC COLORS (To ensure it never looks plain white) */
+    /* --- CSS STYLING --- */
+    :root {
+      --bg-dark: #0B0E14;
+      --bg-card: #151A23;
+      --primary: #6366F1; /* Indigo */
+      --primary-glow: rgba(99, 102, 241, 0.5);
+      --accent: #A855F7; /* Purple */
+      --text-main: #FFFFFF;
+      --text-muted: #94A3B8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -18,277 +29,419 @@
     }
 
     body {
-      /* Forcing a colorful gradient background immediately */
-      background: linear-gradient(135deg, #2e1065 0%, #4c1d95 50%, #db2777 100%);
-      font-family: 'Outfit', sans-serif;
-      color: #ffffff; /* Force white text */
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      /* Subtle Background Gradient Mesh */
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
     }
 
-    /* --- HERO SECTION --- */
-    .hero {
+    /* --- HEADER & LOGO --- */
+    .header {
+      padding: 30px 20px;
       text-align: center;
-      padding: 60px 20px 30px;
+      animation: fadeInDown 0.8s ease-out;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      /* Text gradient effect */
-      background: linear-gradient(to right, #fff, #f472b6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       margin-bottom: 10px;
     }
 
-    .hero p {
-      font-size: 1.1rem;
-      color: rgba(255,255,255,0.8);
-      max-width: 600px;
+    .logo-svg {
+      width: 45px;
+      height: 45px;
+      color: var(--primary);
+      filter: drop-shadow(0 0 10px var(--primary-glow));
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 500px;
       margin: 0 auto;
     }
 
-    /* --- CHAT CONTAINER --- */
-    .chat-section {
-      flex: 1; /* Takes up remaining space */
-      display: flex;
-      justify-content: center;
-      align-items: center; /* Center vertically */
-      padding: 20px;
-    }
-
-    .chat-wrapper {
-      width: 100%;
-      max-width: 700px;
-      /* Glassmorphism Effect */
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    /* --- MAIN CONTAINER --- */
+    .main-wrapper {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      height: 600px; /* Fixed height */
+      align-items: center;
+      padding: 0 20px 40px;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* --- PRE-WRITTEN QUESTIONS (CHIPS) --- */
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .chip {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .chip span {
+      color: var(--primary);
+    }
+
+    /* --- CHAT INTERFACE --- */
+    .chat-interface {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
+      height: 600px; /* Fixed height for desktop */
+      animation: scaleIn 0.6s ease-out;
     }
 
     /* Chat Header */
     .chat-header {
       padding: 20px;
-      background: rgba(0,0,0,0.2);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
+      background: rgba(0,0,0,0.2);
     }
 
-    .status-dot {
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    .status-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
       width: 10px;
       height: 10px;
-      background-color: #4ade80; /* Green online dot */
+      background: #10B981; /* Green */
+      border: 2px solid var(--bg-card);
       border-radius: 50%;
-      box-shadow: 0 0 10px #4ade80;
     }
 
-    .chat-header span {
+    .header-info h3 {
+      font-size: 1rem;
       font-weight: 600;
-      letter-spacing: 1px;
-      color: #fbcfe8;
     }
 
-    /* Message Area */
+    .header-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Messages Area */
     #chat-box {
       flex: 1;
-      padding: 20px;
+      padding: 25px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 20px;
     }
 
-    /* Scrollbar Styling */
     #chat-box::-webkit-scrollbar {
       width: 6px;
     }
     #chat-box::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255,255,255,0.1);
       border-radius: 3px;
     }
 
-    /* Messages */
+    /* Message Bubbles */
     .message {
       display: flex;
-      flex-direction: column;
+      gap: 12px;
       max-width: 80%;
-      animation: popIn 0.3s ease-out;
+      animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .message.user {
       align-self: flex-end;
-      align-items: flex-end;
+      flex-direction: row-reverse;
     }
 
     .message.ai {
       align-self: flex-start;
-      align-items: flex-start;
     }
 
     .bubble {
       padding: 14px 20px;
-      border-radius: 18px;
-      font-size: 1rem;
-      line-height: 1.5;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      position: relative;
+      word-wrap: break-word;
     }
 
     .message.user .bubble {
-      background: linear-gradient(135deg, #db2777, #9333ea); /* Pink/Purple Gradient */
+      background: var(--primary);
       color: white;
       border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
     }
 
     .message.ai .bubble {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--text-main);
       border-bottom-left-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .timestamp {
+      display: block;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 5px;
+      text-align: right;
     }
 
     /* Typing Indicator */
-    .typing-indicator {
+    .typing {
       display: none;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.8rem;
-      margin-left: 10px;
-      font-style: italic;
+      align-self: flex-start;
+      gap: 10px;
+      align-items: center;
+      margin-left: 52px; /* Align with text */
+      margin-bottom: 10px;
     }
-
-    /* Download Button */
-    .download-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 16px;
-      background: #fff;
-      color: #db2777;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.9rem;
-      transition: 0.3s;
+    .typing.active { display: flex; }
+    
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      background: var(--glass);
+      padding: 12px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
     }
-    .download-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+    
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
     }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
 
     /* Input Area */
-    .input-area {
+    .input-container {
       padding: 20px;
       background: rgba(0,0,0,0.2);
+      border-top: 1px solid var(--border);
       display: flex;
       gap: 10px;
     }
 
     input[type="text"] {
       flex: 1;
-      padding: 15px 20px;
-      border-radius: 30px;
-      border: 2px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.3);
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      border-radius: 12px;
       color: white;
+      font-family: 'Inter', sans-serif;
       font-size: 1rem;
       outline: none;
       transition: 0.3s;
     }
 
     input[type="text"]:focus {
-      border-color: #f472b6;
-      background: rgba(0,0,0,0.5);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
     }
 
-    button {
-      padding: 0 30px;
-      border-radius: 30px;
+    button.send-btn {
+      background: var(--primary);
       border: none;
-      background: white;
-      color: #9333ea;
-      font-weight: bold;
-      font-size: 1rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      color: white;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: 0.3s;
     }
 
-    button:hover {
-      background: #fbcfe8;
+    button.send-btn:hover {
       transform: scale(1.05);
+      background: var(--accent);
     }
 
-    /* Animation */
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+    /* Download Link */
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.1);
+      color: var(--text-main);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: 0.3s;
+    }
+    .download-link:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: var(--text-main);
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.5);
+    /* Animations */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+    /* Mobile Responsive */
+    @media (max-width: 600px) {
+      .chat-interface { height: 80vh; }
+      .header { padding: 20px 15px; }
+      .bubble { font-size: 0.9rem; padding: 12px 15px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <h1>Hakeem AI</h1>
-    <p>Automated Customer Support Interface // System Online</p>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo-container">
+      <!-- Professional SVG Logo -->
+      <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
+      </svg>
+      <span class="brand-name">Hakeem AI</span>
+    </div>
+    <p>Professional Automation & Customer Support</p>
   </header>
 
-  <!-- CHAT -->
-  <section class="chat-section">
-    <div class="chat-wrapper">
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+    
+    <!-- QUICK ACTIONS (Pre-written Questions) -->
+    <div class="quick-actions">
+      <div class="chip" onclick="askQuestion('pricing')">
+        <span>💰</span> View Pricing Plans
+      </div>
+      <div class="chip" onclick="askQuestion('software')">
+        <span>⚙️</span> About Software
+      </div>
+      <div class="chip" onclick="askQuestion('guide')">
+        <span>📂</span> Download User Guide
+      </div>
+      <div class="chip" onclick="askQuestion('contact')">
+        <span>📞</span> Contact Support
+      </div>
+    </div>
+
+    <!-- CHAT INTERFACE -->
+    <div class="chat-interface">
       
-      <!-- Header -->
+      <!-- Chat Header -->
       <div class="chat-header">
-        <div class="status-dot"></div>
-        <span>AI SUPPORT AGENT</span>
+        <div class="avatar">H<div class="status-indicator"></div></div>
+        <div class="header-info">
+          <h3>Hakeem Assistant</h3>
+          <p>Online • Replies instantly</p>
+        </div>
       </div>
 
-      <!-- Messages -->
+      <!-- Chat History -->
       <div id="chat-box">
+        <!-- Welcome Message -->
         <div class="message ai">
           <div class="bubble">
-            Hello! I am Hakeem AI. <br>
-            You can ask for a <b>guide</b>, check <b>pricing</b>, or ask about <b>software</b>.
+            Hello! I'm the Hakeem AI Assistant. <br>
+            How can I help you today?
+            <span class="timestamp">Just now</span>
           </div>
         </div>
       </div>
 
       <!-- Typing Indicator -->
-      <div id="typing-indicator" class="typing-indicator">AI is typing...</div>
+      <div class="typing" id="typing-indicator">
+        <div class="typing-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
 
-      <!-- Input -->
-      <div class="input-area">
-        <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off">
-        <button id="send-btn">Send</button>
+      <!-- Input Area -->
+      <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+        <button class="send-btn" id="send-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
       </div>
 
     </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2026 Hakeem Shaik • High Performance Web Design
-  </footer>
+  </div>
 
   <script>
     // --- JAVASCRIPT LOGIC ---
@@ -297,80 +450,110 @@
     const sendBtn = document.getElementById("send-btn");
     const typingIndicator = document.getElementById("typing-indicator");
 
-    // The "Brain"
-    const aiResponses = {
-      "hello": { text: "Greetings. How may I assist you with your software needs today?" },
-      "hi": { text: "Hi there! Ready to help." },
-      "guide": { text: "Here is the official setup guide for you.", download: { name: "User_Guide.pdf", link: "#" } },
-      "pricing": { text: "Our Basic plan is $29, and the Pro plan is $99. Which one are you interested in?" },
-      "software": { text: "We specialize in AI automation tools and web development frameworks." },
-      "contact": { text: "You can reach our human team at support@hakeem.com" },
-      "default": { text: "I'm not sure about that. Try asking for 'guide', 'pricing', or 'software'." }
+    // AI Knowledge Base
+    const responses = {
+      "hello": "Hello there! Ready to assist you with your automation needs.",
+      "hi": "Hi! Ask me anything about our tools or pricing.",
+      "pricing": "We have three tiers: <br>• Starter: $29/mo<br>• Pro: $99/mo<br>• Enterprise: Custom pricing. Which one fits you?",
+      "software": "Our software specializes in API integration, data visualization, and workflow automation scripts.",
+      "guide": "I can send you the PDF guide right now.",
+      "contact": "You can reach our human engineering team at support@hakeem.ai",
+      "default": "I didn't quite catch that. Try clicking one of the quick questions above!"
     };
 
-    // Send Button Click
-    sendBtn.addEventListener("click", sendMessage);
-    
-    // Enter Key Press
-    userInput.addEventListener("keypress", (e) => { 
-      if(e.key === "Enter") sendMessage(); 
-    });
+    const downloads = {
+      "guide": { name: "Hakeem_Setup_Guide.pdf", link: "#" }
+    };
 
-    function sendMessage() {
-      const text = userInput.value.trim();
-      if (!text) return;
+    // Handle Send Button
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keypress", (e) => { if(e.key === "Enter") sendMessage(); });
+
+    // Handle Quick Action Chips
+    function askQuestion(topic) {
+      // Map topic to full text if needed, otherwise just use topic
+      let text = "";
+      if(topic === 'pricing') text = "What are the pricing plans?";
+      else if(topic === 'software') text = "Tell me about the software.";
+      else if(topic === 'guide') text = "Can I get the user guide?";
+      else if(topic === 'contact') text = "How do I contact support?";
+      
+      if(text) sendMessage(text);
+    }
+
+    function sendMessage(text) {
+      // If called from button, text is passed; if from input, get value
+      const inputText = text || userInput.value.trim();
+      if (!inputText) return;
 
       // 1. Add User Message
-      addMessage(text, "user");
-      userInput.value = ""; // Clear input
+      addMessage(inputText, "user");
+      if(!text) userInput.value = ""; // Only clear input if it wasn't a chip click
 
-      // 2. Show Typing Indicator
-      typingIndicator.style.display = "block";
-      chatBox.scrollTop = chatBox.scrollHeight;
+      // 2. Show Typing Animation
+      typingIndicator.classList.add("active");
+      scrollToBottom();
 
-      // 3. Simulate Delay and Reply
-      const delay = 1000 + Math.random() * 1000; // Random 1-2 second delay
+      // 3. Simulate AI Delay (1-1.5 seconds)
+      const delay = 1000 + Math.random() * 500;
       setTimeout(() => {
-        typingIndicator.style.display = "none"; // Hide typing
-        respondAI(text.toLowerCase()); // Get reply
+        typingIndicator.classList.remove("active");
+        respondAI(inputText.toLowerCase());
       }, delay);
     }
 
-    // Add message to screen
     function addMessage(text, sender) {
       const msgDiv = document.createElement("div");
       msgDiv.classList.add("message", sender);
-      msgDiv.innerHTML = `<div class="bubble">${text}</div>`;
+
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      msgDiv.innerHTML = `
+        <div class="bubble">
+          ${text}
+          <span class="timestamp">${time}</span>
+        </div>
+      `;
+      
       chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
+      scrollToBottom();
     }
 
-    // Figure out what to say back
     function respondAI(input) {
-      let response = aiResponses[input];
-
-      // If exact match fails, look for keywords inside the sentence
-      if (!response) {
-        const keys = Object.keys(aiResponses);
-        const foundKey = keys.find(key => input.includes(key) && key !== "default");
-        response = foundKey ? aiResponses[foundKey] : aiResponses["default"];
+      // Find response
+      let responseText = responses[input];
+      
+      // Check for partial match
+      if (!responseText) {
+        const keys = Object.keys(responses);
+        const found = keys.find(k => input.includes(k) && k !== "default");
+        responseText = found ? responses[found] : responses["default"];
       }
 
-      // Create the AI message HTML
+      // Check if there is a download file attached
+      let downloadHTML = "";
+      if (downloads[input]) {
+        const d = downloads[input];
+        downloadHTML = `<a href="${d.link}" class="download-link" download="${d.name}">⬇ Download ${d.name}</a>`;
+      }
+
       const msgDiv = document.createElement("div");
       msgDiv.classList.add("message", "ai");
-      
-      let htmlContent = `<div class="bubble">${response.text}`;
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      // If there is a download, add the button
-      if(response.download) {
-        htmlContent += `<br><a href="${response.download.link}" class="download-btn" download="${response.download.name}">⬇ Download File</a>`;
-      }
-
-      htmlContent += `</div>`;
-      msgDiv.innerHTML = htmlContent;
+      msgDiv.innerHTML = `
+        <div class="bubble">
+          ${responseText}
+          ${downloadHTML}
+          <span class="timestamp">${time}</span>
+        </div>
+      `;
 
       chatBox.appendChild(msgDiv);
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
