@@ -519,43 +519,33 @@
       scrollToBottom();
     }
 
-    function respondAI(input) {
-      // Find response
-      let responseText = responses[input];
-      
-      // Check for partial match
-      if (!responseText) {
-        const keys = Object.keys(responses);
-        const found = keys.find(k => input.includes(k) && k !== "default");
-        responseText = found ? responses[found] : responses["default"];
-      }
+async function respondAI(input) {
+  try {
+    // Show typing animation
+    typingIndicator.classList.add("active");
 
-      // Check if there is a download file attached
-      let downloadHTML = "";
-      if (downloads[input]) {
-        const d = downloads[input];
-        downloadHTML = `<a href="${d.link}" class="download-link" download="${d.name}">⬇ Download ${d.name}</a>`;
-      }
+    // Send user input to backend
+    const res = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input })
+    });
 
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add("message", "ai");
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const data = await res.json();
 
-      msgDiv.innerHTML = `
-        <div class="bubble">
-          ${responseText}
-          ${downloadHTML}
-          <span class="timestamp">${time}</span>
-        </div>
-      `;
+    // Hide typing animation
+    typingIndicator.classList.remove("active");
 
-      chatBox.appendChild(msgDiv);
-      scrollToBottom();
-    }
+    // Add AI reply to chat
+    addMessage(data.reply, "ai");
 
-    function scrollToBottom() {
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+  } catch (error) {
+    typingIndicator.classList.remove("active");
+    console.error("AI error:", error);
+    addMessage("⚠️ Sorry, AI is unavailable right now.", "ai");
+  }
+}
+
   </script>
 </body>
 </html>
