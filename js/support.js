@@ -1,63 +1,94 @@
 const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
+const typingIndicator = document.getElementById("typing-indicator");
 
-// AI responses with optional download links
+// AI Knowledge Base
 const aiResponses = {
-  "hello": { text: "Hello! How can I assist you today?" },
-  "guide": { text: "Here is a helpful guide you can download:", download: { name: "Hakeem_Guide.pdf", link: "downloads/Hakeem_Guide.pdf" } },
-  "pricing": { text: "Our services start at $50/month. You can find more details in the pricing section." },
-  "default": { text: "I'm not sure about that. Please check our documentation or ask another question." }
+  "hello": { text: "Hello there! Welcome to Hakeem Support. How can I help?" },
+  "hi": { text: "Hi! I'm ready to assist you." },
+  "guide": { text: "Sure, I have the setup guide ready for you.", download: { name: "Hakeem_Setup_Guide.pdf", link: "#" } },
+  "pricing": { text: "Our basic plan is $29/mo and the Pro plan is $99/mo. Which one interests you?" },
+  "software": { text: "We build automation tools for web developers and designers." },
+  "contact": { text: "You can email us at support@hakeem.ai." },
+  "default": { text: "I'm still learning! Could you ask about 'software', 'pricing', or 'guide'?" }
 };
 
-// Send message
+// Event Listeners
 sendBtn.addEventListener("click", sendMessage);
-userInput.addEventListener("keypress", (e) => { if(e.key === "Enter") sendMessage(); });
+userInput.addEventListener("keypress", (e) => { 
+  if(e.key === "Enter") sendMessage(); 
+});
 
 function sendMessage() {
   const text = userInput.value.trim();
   if (!text) return;
 
-  // Add user message
+  // 1. Add User Message
   addMessage(text, "user");
-
   userInput.value = "";
 
-  // Simulate AI typing
-  const typing = addMessage("...", "ai");
+  // 2. Show Typing Animation
+  typingIndicator.style.display = "flex";
+  scrollToBottom();
+
+  // 3. Process AI Response with delay
+  const delay = 1000 + Math.random() * 1000; // 1-2 seconds delay
+
   setTimeout(() => {
-    chatBox.removeChild(typing);
+    typingIndicator.style.display = "none";
     respondAI(text.toLowerCase());
-  }, 800 + Math.random()*800);
+  }, delay);
 }
 
-function addMessage(text, type) {
-  const msg = document.createElement("div");
-  msg.classList.add("message", type);
-  msg.innerHTML = text;
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
-  return msg;
+function addMessage(text, sender) {
+  const msgWrapper = document.createElement("div");
+  msgWrapper.classList.add("message", sender);
+
+  // If it's AI, add avatar and bubble structure
+  if (sender === "ai") {
+    msgWrapper.innerHTML = `
+      <div class="avatar">🤖</div>
+      <div class="bubble">${text}</div>
+    `;
+  } else {
+    // User message (Simple bubble)
+    msgWrapper.innerHTML = `<div class="bubble">${text}</div>`;
+  }
+
+  chatBox.insertBefore(msgWrapper, typingIndicator);
+  scrollToBottom();
 }
 
 function respondAI(input) {
-  const response = aiResponses[input] || aiResponses["default"];
-  const msg = document.createElement("div");
-  msg.classList.add("message", "ai");
-  msg.innerHTML = response.text;
-
-  // Add download button if exists
-  if(response.download) {
-    const btn = document.createElement("a");
-    btn.href = response.download.link;
-    btn.download = response.download.name;
-    btn.className = "download-btn";
-    btn.innerHTML = "⬇ " + response.download.name;
-    msg.appendChild(document.createElement("br"));
-    msg.appendChild(btn);
+  // Search for keyword in input
+  let response = aiResponses[input];
+  
+  // Fallback: Check if input contains a known keyword
+  if (!response) {
+    const keys = Object.keys(aiResponses);
+    const foundKey = keys.find(key => input.includes(key) && key !== "default");
+    response = foundKey ? aiResponses[foundKey] : aiResponses["default"];
   }
 
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  const msgWrapper = document.createElement("div");
+  msgWrapper.classList.add("message", "ai");
+  
+  // Build HTML content
+  let contentHtml = `<div class="avatar">🤖</div><div class="bubble">${response.text}`;
+
+  // Add download button if present
+  if(response.download) {
+    contentHtml += `<br><a href="${response.download.link}" class="download-btn" download="${response.download.name}">⬇ Download ${response.download.name}</a>`;
+  }
+
+  contentHtml += `</div>`; // Close bubble
+  msgWrapper.innerHTML = contentHtml;
+
+  chatBox.insertBefore(msgWrapper, typingIndicator);
+  scrollToBottom();
 }
 
+function scrollToBottom() {
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
