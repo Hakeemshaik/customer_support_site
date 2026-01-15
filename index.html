@@ -22,11 +22,7 @@
       --border: rgba(255, 255, 255, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -36,331 +32,71 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
-      /* Subtle Background Gradient Mesh */
       background-image: 
         radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
     }
 
-    /* --- HEADER & LOGO --- */
-    .header {
-      padding: 30px 20px;
-      text-align: center;
-      animation: fadeInDown 0.8s ease-out;
-    }
+    .header { padding: 30px 20px; text-align: center; animation: fadeInDown 0.8s ease-out; }
+    .logo-container { display: inline-flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; }
+    .logo-svg { width: 45px; height: 45px; color: var(--primary); filter: drop-shadow(0 0 10px var(--primary-glow)); }
+    .brand-name { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header p { color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto; }
 
-    .logo-container {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 20px 40px; max-width: 800px; width: 100%; margin: 0 auto; }
 
-    .logo-svg {
-      width: 45px;
-      height: 45px;
-      color: var(--primary);
-      filter: drop-shadow(0 0 10px var(--primary-glow));
-    }
+    /* QUICK ACTION CHIPS */
+    .quick-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; animation: fadeInUp 1s ease-out; }
+    .chip { background: var(--glass); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; }
+    .chip:hover { background: rgba(99, 102, 241, 0.1); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .chip span { color: var(--primary); }
 
-    .brand-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff, var(--primary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    /* CHAT INTERFACE */
+    .chat-interface { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; height: 600px; animation: scaleIn 0.6s ease-out; }
+    .chat-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; position: relative; }
+    .status-indicator { position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: #10B981; border: 2px solid var(--bg-card); border-radius: 50%; }
+    .header-info h3 { font-size: 1rem; font-weight: 600; }
+    .header-info p { font-size: 0.8rem; color: var(--text-muted); }
+    #chat-box { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+    #chat-box::-webkit-scrollbar { width: 6px; }
+    #chat-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .message { display: flex; gap: 12px; max-width: 80%; animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .message.user { align-self: flex-end; flex-direction: row-reverse; }
+    .message.ai { align-self: flex-start; }
+    .bubble { padding: 14px 20px; border-radius: 16px; font-size: 0.95rem; line-height: 1.6; position: relative; word-wrap: break-word; }
+    .message.user .bubble { background: var(--primary); color: white; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+    .message.ai .bubble { background: var(--glass); border: 1px solid var(--border); color: var(--text-main); border-bottom-left-radius: 4px; }
+    .timestamp { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 5px; text-align: right; }
 
-    .header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* --- MAIN CONTAINER --- */
-    .main-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 20px 40px;
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    /* --- PRE-WRITTEN QUESTIONS (CHIPS) --- */
-    .quick-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-      animation: fadeInUp 1s ease-out;
-    }
-
-    .chip {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .chip:hover {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .chip span {
-      color: var(--primary);
-    }
-
-    /* --- CHAT INTERFACE --- */
-    .chat-interface {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      height: 600px; /* Fixed height for desktop */
-      animation: scaleIn 0.6s ease-out;
-    }
-
-    /* Chat Header */
-    .chat-header {
-      padding: 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: rgba(0,0,0,0.2);
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 1.1rem;
-      position: relative;
-    }
-
-    .status-indicator {
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 10px;
-      height: 10px;
-      background: #10B981; /* Green */
-      border: 2px solid var(--bg-card);
-      border-radius: 50%;
-    }
-
-    .header-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .header-info p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* Messages Area */
-    #chat-box {
-      flex: 1;
-      padding: 25px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    #chat-box::-webkit-scrollbar {
-      width: 6px;
-    }
-    #chat-box::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-    }
-
-    /* Message Bubbles */
-    .message {
-      display: flex;
-      gap: 12px;
-      max-width: 80%;
-      animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .message.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-
-    .message.ai {
-      align-self: flex-start;
-    }
-
-    .bubble {
-      padding: 14px 20px;
-      border-radius: 16px;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      position: relative;
-      word-wrap: break-word;
-    }
-
-    .message.user .bubble {
-      background: var(--primary);
-      color: white;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-    }
-
-    .message.ai .bubble {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      border-bottom-left-radius: 4px;
-    }
-
-    .timestamp {
-      display: block;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.4);
-      margin-top: 5px;
-      text-align: right;
-    }
-
-    /* Typing Indicator */
-    .typing {
-      display: none;
-      align-self: flex-start;
-      gap: 10px;
-      align-items: center;
-      margin-left: 52px; /* Align with text */
-      margin-bottom: 10px;
-    }
+    .typing { display: none; align-self: flex-start; gap: 10px; align-items: center; margin-left: 52px; margin-bottom: 10px; }
     .typing.active { display: flex; }
-    
-    .typing-dots {
-      display: flex;
-      gap: 4px;
-      background: var(--glass);
-      padding: 12px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-    
-    .dot {
-      width: 6px;
-      height: 6px;
-      background: var(--text-muted);
-      border-radius: 50%;
-      animation: bounce 1.4s infinite ease-in-out both;
-    }
+    .typing-dots { display: flex; gap: 4px; background: var(--glass); padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border); }
+    .dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
     .dot:nth-child(1) { animation-delay: -0.32s; }
     .dot:nth-child(2) { animation-delay: -0.16s; }
 
-    /* Input Area */
-    .input-container {
-      padding: 20px;
-      background: rgba(0,0,0,0.2);
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 10px;
-    }
+    .input-container { padding: 20px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border); display: flex; gap: 10px; }
+    input[type="text"] { flex: 1; background: var(--bg-dark); border: 1px solid var(--border); padding: 16px 20px; border-radius: 12px; color: white; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; }
+    input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+    button.send-btn { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 12px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    button.send-btn:hover { transform: scale(1.05); background: var(--accent); }
 
-    input[type="text"] {
-      flex: 1;
-      background: var(--bg-dark);
-      border: 1px solid var(--border);
-      padding: 16px 20px;
-      border-radius: 12px;
-      color: white;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      outline: none;
-      transition: 0.3s;
-    }
+    .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 16px; background: rgba(255,255,255,0.1); color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 0.85rem; border: 1px solid var(--border); transition: 0.3s; }
+    .download-link:hover { background: rgba(255,255,255,0.2); border-color: var(--text-main); }
 
-    input[type="text"]:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-
-    button.send-btn {
-      background: var(--primary);
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-    }
-
-    button.send-btn:hover {
-      transform: scale(1.05);
-      background: var(--accent);
-    }
-
-    /* Download Link */
-    .download-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.1);
-      color: var(--text-main);
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      border: 1px solid var(--border);
-      transition: 0.3s;
-    }
-    .download-link:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: var(--text-main);
-    }
-
-    /* Animations */
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
-    /* Mobile Responsive */
-    @media (max-width: 600px) {
-      .chat-interface { height: 80vh; }
-      .header { padding: 20px 15px; }
-      .bubble { font-size: 0.9rem; padding: 12px 15px; }
-    }
+    @media (max-width: 600px) { .chat-interface { height: 80vh; } .header { padding: 20px 15px; } .bubble { font-size: 0.9rem; padding: 12px 15px; } }
+
+    /* --- DOCUMENT UPLOAD STYLING --- */
+    #doc-upload { margin-top: 15px; padding: 8px; border-radius: 6px; }
+    #upload-btn { padding: 8px 12px; border-radius: 6px; background: var(--primary); color: white; border: none; cursor: pointer; margin-left: 10px; }
+    #upload-btn:hover { background: var(--accent); }
   </style>
 </head>
 <body>
@@ -368,7 +104,6 @@
   <!-- HEADER -->
   <header class="header">
     <div class="logo-container">
-      <!-- Professional SVG Logo -->
       <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
         <path d="M2 17l10 5 10-5"></path>
@@ -379,57 +114,43 @@
     <p>Professional Automation & Customer Support</p>
   </header>
 
-  <!-- MAIN WRAPPER -->
   <div class="main-wrapper">
     
+    <!-- Document Upload -->
+    <div style="margin: 20px 0; text-align:center;">
+      <input type="file" id="doc-upload" accept=".pdf,.txt" />
+      <button id="upload-btn">Upload Document</button>
+    </div>
+
     <!-- QUICK ACTIONS (Pre-written Questions) -->
     <div class="quick-actions">
-      <div class="chip" onclick="askQuestion('pricing')">
-        <span>💰</span> View Pricing Plans
-      </div>
-      <div class="chip" onclick="askQuestion('software')">
-        <span>⚙️</span> About Software
-      </div>
-      <div class="chip" onclick="askQuestion('guide')">
-        <span>📂</span> Download User Guide
-      </div>
-      <div class="chip" onclick="askQuestion('contact')">
-        <span>📞</span> Contact Support
-      </div>
+      <div class="chip" onclick="askQuestion('pricing')"><span>💰</span> View Pricing Plans</div>
+      <div class="chip" onclick="askQuestion('software')"><span>⚙️</span> About Software</div>
+      <div class="chip" onclick="askQuestion('guide')"><span>📂</span> Download User Guide</div>
+      <div class="chip" onclick="askQuestion('contact')"><span>📞</span> Contact Support</div>
     </div>
 
     <!-- CHAT INTERFACE -->
     <div class="chat-interface">
-      
-      <!-- Chat Header -->
       <div class="chat-header">
         <div class="avatar">H<div class="status-indicator"></div></div>
-        <div class="header-info">
-          <h3>Hakeem Assistant</h3>
-          <p>Online • Replies instantly</p>
-        </div>
+        <div class="header-info"><h3>Hakeem Assistant</h3><p>Online • Replies instantly</p></div>
       </div>
-
-      <!-- Chat History -->
       <div id="chat-box">
-        <!-- Welcome Message -->
         <div class="message ai">
           <div class="bubble">
-            Hello! I'm the Hakeem AI Assistant. <br>
-            How can I help you today?
+            Hello! I'm the Hakeem AI Assistant. <br>How can I help you today?
             <span class="timestamp">Just now</span>
           </div>
         </div>
       </div>
 
-      <!-- Typing Indicator -->
       <div class="typing" id="typing-indicator">
         <div class="typing-dots">
           <div class="dot"></div><div class="dot"></div><div class="dot"></div>
         </div>
       </div>
 
-      <!-- Input Area -->
       <div class="input-container">
         <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
         <button class="send-btn" id="send-btn">
@@ -439,18 +160,17 @@
           </svg>
         </button>
       </div>
-
     </div>
   </div>
 
   <script>
-    // --- JAVASCRIPT LOGIC ---
     const chatBox = document.getElementById("chat-box");
     const userInput = document.getElementById("user-input");
     const sendBtn = document.getElementById("send-btn");
     const typingIndicator = document.getElementById("typing-indicator");
+    const uploadBtn = document.getElementById("upload-btn");
+    const docUpload = document.getElementById("doc-upload");
 
-    // AI Knowledge Base
     const responses = {
       "hello": "Hello there! Ready to assist you with your automation needs.",
       "hi": "Hi! Ask me anything about our tools or pricing.",
@@ -461,91 +181,87 @@
       "default": "I didn't quite catch that. Try clicking one of the quick questions above!"
     };
 
-    const downloads = {
-      "guide": { name: "Hakeem_Setup_Guide.pdf", link: "#" }
-    };
+    const downloads = { "guide": { name: "Hakeem_Setup_Guide.pdf", link: "#" } };
 
-    // Handle Send Button
     sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keypress", (e) => { if(e.key === "Enter") sendMessage(); });
+    userInput.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
 
-    // Handle Quick Action Chips
     function askQuestion(topic) {
-      // Map topic to full text if needed, otherwise just use topic
-      let text = "";
-      if(topic === 'pricing') text = "What are the pricing plans?";
-      else if(topic === 'software') text = "Tell me about the software.";
-      else if(topic === 'guide') text = "Can I get the user guide?";
-      else if(topic === 'contact') text = "How do I contact support?";
-      
+      let text="";
+      if(topic==='pricing') text="What are the pricing plans?";
+      else if(topic==='software') text="Tell me about the software.";
+      else if(topic==='guide') text="Can I get the user guide?";
+      else if(topic==='contact') text="How do I contact support?";
       if(text) sendMessage(text);
     }
 
     function sendMessage(text) {
-      // If called from button, text is passed; if from input, get value
       const inputText = text || userInput.value.trim();
-      if (!inputText) return;
-
-      // 1. Add User Message
+      if(!inputText) return;
       addMessage(inputText, "user");
-      if(!text) userInput.value = ""; // Only clear input if it wasn't a chip click
-
-      // 2. Show Typing Animation
+      if(!text) userInput.value="";
       typingIndicator.classList.add("active");
       scrollToBottom();
-
-      // 3. Simulate AI Delay (1-1.5 seconds)
-      const delay = 1000 + Math.random() * 500;
-      setTimeout(() => {
-        typingIndicator.classList.remove("active");
-        respondAI(inputText.toLowerCase());
-      }, delay);
+      const delay = 1000 + Math.random()*500;
+      setTimeout(()=>{ respondAI(inputText.toLowerCase()); }, delay);
     }
 
-    function addMessage(text, sender) {
+    function addMessage(text, sender, downloadHTML="") {
       const msgDiv = document.createElement("div");
       msgDiv.classList.add("message", sender);
-
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-      msgDiv.innerHTML = `
-        <div class="bubble">
-          ${text}
-          <span class="timestamp">${time}</span>
-        </div>
-      `;
-      
+      const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      msgDiv.innerHTML=`<div class="bubble">${text}${downloadHTML}<span class="timestamp">${time}</span></div>`;
       chatBox.appendChild(msgDiv);
       scrollToBottom();
     }
 
-async function respondAI(input) {
-  try {
-    // Show typing animation
-    typingIndicator.classList.add("active");
+    function scrollToBottom(){ chatBox.scrollTop = chatBox.scrollHeight; }
 
-    // Send user input to backend
-    const res = await fetch("http://localhost:3000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input })
+    async function respondAI(input){
+      try{
+        typingIndicator.classList.add("active");
+        const res = await fetch("http://localhost:3000/chat", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({message:input})
+        });
+        const data = await res.json();
+        typingIndicator.classList.remove("active");
+
+        let downloadHTML = "";
+        if(downloads[input]) {
+          const d = downloads[input];
+          downloadHTML=`<a href="${d.link}" class="download-link" download="${d.name}">⬇ Download ${d.name}</a>`;
+        }
+
+        const replyText = data.reply || responses[input] || responses["default"];
+        addMessage(replyText, "ai", downloadHTML);
+      }catch(err){
+        typingIndicator.classList.remove("active");
+        console.error(err);
+        addMessage("⚠️ Sorry, AI is unavailable right now.", "ai");
+      }
+    }
+
+    // --- Document Upload ---
+    uploadBtn.addEventListener("click", async()=>{
+      const file = docUpload.files[0];
+      if(!file){ alert("Please select a file first!"); return; }
+      typingIndicator.classList.add("active");
+      const formData = new FormData();
+      formData.append("file", file);
+      try{
+        const res = await fetch("http://localhost:3000/upload", { method:"POST", body:formData });
+        const data = await res.json();
+        typingIndicator.classList.remove("active");
+        if(data.success){ addMessage(`📄 Document "${file.name}" uploaded successfully! You can now ask questions about it.`, "ai"); }
+        else{ addMessage("⚠️ Upload failed. Try again.", "ai"); }
+      }catch(err){
+        typingIndicator.classList.remove("active");
+        console.error(err);
+        addMessage("⚠️ Upload error occurred.", "ai");
+      }
     });
-
-    const data = await res.json();
-
-    // Hide typing animation
-    typingIndicator.classList.remove("active");
-
-    // Add AI reply to chat
-    addMessage(data.reply, "ai");
-
-  } catch (error) {
-    typingIndicator.classList.remove("active");
-    console.error("AI error:", error);
-    addMessage("⚠️ Sorry, AI is unavailable right now.", "ai");
-  }
-}
-
   </script>
 </body>
 </html>
