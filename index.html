@@ -4,37 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hakeem Support AI</title>
+  <!-- IMPORTING PROFESSIONAL FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- BACKGROUND ANIMATION LAYER -->
+  <div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
   <!-- HERO SECTION -->
   <header class="hero">
-    <div class="hero-content">
-      <!-- INLINE SVG LOGO -->
+    <div class="hero-card">
+      <!-- Logo -->
       <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M2 17L12 22L22 17" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M2 12L12 17L22 12" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <defs>
           <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#d946ef"/> <!-- Neon Pink -->
-            <stop offset="1" stop-color="#8b5cf6"/> <!-- Violet -->
+            <stop stop-color="#d946ef"/>
+            <stop offset="1" stop-color="#8b5cf6"/>
           </linearGradient>
         </defs>
       </svg>
 
       <h1>Hakeem Support AI</h1>
       <p>
-        Welcome to the next generation of customer support. 
-        Instant answers, automated workflows, and seamless file transfers. 
-        Ask me anything about our software ecosystem.
+        Next-generation customer support ecosystem. 
+        Automated workflows, instant file transfers, and intelligent responses 
+        powered by advanced neural networks.
       </p>
     </div>
   </header>
 
   <!-- SECTION TITLE -->
-  <h2 class="section-title">Live Support</h2>
+  <div class="section-wrapper">
+    <h2 class="section-title">Live Support Dashboard</h2>
+  </div>
 
   <!-- CHAT SECTION -->
   <section class="chat-section">
@@ -42,16 +53,20 @@
       
       <!-- Chat Header -->
       <div class="chat-header">
+        <div class="avatar-bot-small">H</div>
+        <div class="header-text">
+          <strong>Hakeem AI</strong>
+          <span>Online</span>
+        </div>
         <div class="status-dot"></div>
-        <span>AI Assistant Online</span>
       </div>
 
       <div id="chat-box" class="chat-box">
-        <!-- Initial Welcome Message -->
         <div class="message ai">
           <div class="avatar">🤖</div>
           <div class="bubble">
-            Hello! I am Hakeem AI. Try asking for a <b>guide</b> or our <b>pricing</b>.
+            Hello! I am Hakeem AI. <br>
+            Ask about <b>software</b>, <b>pricing</b>, or request a <b>guide</b>.
           </div>
         </div>
       </div>
@@ -63,10 +78,9 @@
         <div class="dot"></div>
       </div>
 
-      <div class="chat-input">
-        <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off" />
+      <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Ask me anything..." autocomplete="off" />
         <button id="send-btn">
-          <!-- Send Icon SVG -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -78,7 +92,7 @@
 
   <!-- FOOTER -->
   <footer>
-    © 2026 Hakeem Shaik • Premium AI Solutions
+    © 2026 Hakeem Shaik • Neural Interface v2.0
   </footer>
 
   <script src="script.js"></script>
