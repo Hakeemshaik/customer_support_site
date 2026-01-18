@@ -3,265 +3,513 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hakeem AI Support</title>
-  <!-- Professional Tech Fonts -->
+  <title>Hakeem AI | Enterprise Support Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* --- CSS STYLING --- */
     :root {
-      --bg-dark: #0B0E14;
-      --bg-card: #151A23;
-      --primary: #6366F1; /* Indigo */
-      --primary-glow: rgba(99, 102, 241, 0.5);
-      --accent: #A855F7; /* Purple */
-      --text-main: #FFFFFF;
-      --text-muted: #94A3B8;
-      --glass: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.08);
+      --bg-main: #050505;
+      --accent: #4f46e5;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background-color: var(--bg-main);
+      color: #e4e4e7;
+      margin: 0;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
     }
-
-    .header { padding: 30px 20px; text-align: center; animation: fadeInDown 0.8s ease-out; }
-    .logo-container { display: inline-flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; }
-    .logo-svg { width: 45px; height: 45px; color: var(--primary); filter: drop-shadow(0 0 10px var(--primary-glow)); }
-    .brand-name { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .header p { color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto; }
-
-    .main-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 20px 40px; max-width: 800px; width: 100%; margin: 0 auto; }
-
-    /* QUICK ACTION CHIPS */
-    .quick-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; animation: fadeInUp 1s ease-out; }
-    .chip { background: var(--glass); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; }
-    .chip:hover { background: rgba(99, 102, 241, 0.1); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-    .chip span { color: var(--primary); }
-
-    /* CHAT INTERFACE */
-    .chat-interface { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden; height: 600px; animation: scaleIn 0.6s ease-out; }
-    .chat-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; position: relative; }
-    .status-indicator { position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: #10B981; border: 2px solid var(--bg-card); border-radius: 50%; }
-    .header-info h3 { font-size: 1rem; font-weight: 600; }
-    .header-info p { font-size: 0.8rem; color: var(--text-muted); }
-    #chat-box { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-    #chat-box::-webkit-scrollbar { width: 6px; }
-    #chat-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-    .message { display: flex; gap: 12px; max-width: 80%; animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-    .message.user { align-self: flex-end; flex-direction: row-reverse; }
-    .message.ai { align-self: flex-start; }
-    .bubble { padding: 14px 20px; border-radius: 16px; font-size: 0.95rem; line-height: 1.6; position: relative; word-wrap: break-word; }
-    .message.user .bubble { background: var(--primary); color: white; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
-    .message.ai .bubble { background: var(--glass); border: 1px solid var(--border); color: var(--text-main); border-bottom-left-radius: 4px; }
-    .timestamp { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 5px; text-align: right; }
-
-    .typing { display: none; align-self: flex-start; gap: 10px; align-items: center; margin-left: 52px; margin-bottom: 10px; }
-    .typing.active { display: flex; }
-    .typing-dots { display: flex; gap: 4px; background: var(--glass); padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border); }
-    .dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
-    .dot:nth-child(1) { animation-delay: -0.32s; }
-    .dot:nth-child(2) { animation-delay: -0.16s; }
-
-    .input-container { padding: 20px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border); display: flex; gap: 10px; }
-    input[type="text"] { flex: 1; background: var(--bg-dark); border: 1px solid var(--border); padding: 16px 20px; border-radius: 12px; color: white; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; }
-    input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
-    button.send-btn { background: var(--primary); border: none; width: 50px; height: 50px; border-radius: 12px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-    button.send-btn:hover { transform: scale(1.05); background: var(--accent); }
-
-    .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 16px; background: rgba(255,255,255,0.1); color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 0.85rem; border: 1px solid var(--border); transition: 0.3s; }
-    .download-link:hover { background: rgba(255,255,255,0.2); border-color: var(--text-main); }
-
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-
-    @media (max-width: 600px) { .chat-interface { height: 80vh; } .header { padding: 20px 15px; } .bubble { font-size: 0.9rem; padding: 12px 15px; } }
-
-    /* --- DOCUMENT UPLOAD STYLING --- */
-    #doc-upload { margin-top: 15px; padding: 8px; border-radius: 6px; }
-    #upload-btn { padding: 8px 12px; border-radius: 6px; background: var(--primary); color: white; border: none; cursor: pointer; margin-left: 10px; }
-    #upload-btn:hover { background: var(--accent); }
+    .font-outfit { font-family: 'Outfit', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 50% -20%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 0% 100%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    ::selection {
+      background: rgba(79, 70, 229, 0.3);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
+  <div class="bg-glow"></div>
+  <div id="root"></div>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="logo-container">
-      <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-        <path d="M2 17l10 5 10-5"></path>
-        <path d="M2 12l10 5 10-5"></path>
-      </svg>
-      <span class="brand-name">Hakeem AI</span>
-    </div>
-    <p>Professional Automation & Customer Support</p>
-  </header>
+  <script type="text/babel">
+    const { useState, useRef, useEffect } = React;
 
-  <div class="main-wrapper">
-    
-    <!-- Document Upload -->
-    <div style="margin: 20px 0; text-align:center;">
-      <input type="file" id="doc-upload" accept=".pdf,.txt" />
-      <button id="upload-btn">Upload Document</button>
-    </div>
+    const App = () => {
+      const [view, setView] = useState('home');
+      const [activeDocSection, setActiveDocSection] = useState('quick-start');
+      const [messages, setMessages] = useState([
+        {
+          id: '1',
+          role: 'ai',
+          text: "Secure session initiated. Hakeem AI protocol active. Specify your technical requirements or upload documentation for automated analysis.",
+          time: new Date()
+        }
+      ]);
+      const [input, setInput] = useState('');
+      const [isTyping, setIsTyping] = useState(false);
+      const [uploadedFile, setUploadedFile] = useState(null);
+      const [isUploading, setIsUploading] = useState(false);
+      
+      const scrollRef = useRef(null);
+      const fileInputRef = useRef(null);
 
-    <!-- QUICK ACTIONS (Pre-written Questions) -->
-    <div class="quick-actions">
-      <div class="chip" onclick="askQuestion('pricing')"><span>💰</span> View Pricing Plans</div>
-      <div class="chip" onclick="askQuestion('software')"><span>⚙️</span> About Software</div>
-      <div class="chip" onclick="askQuestion('guide')"><span>📂</span> Download User Guide</div>
-      <div class="chip" onclick="askQuestion('contact')"><span>📞</span> Contact Support</div>
-    </div>
+      useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, [view]);
 
-    <!-- CHAT INTERFACE -->
-    <div class="chat-interface">
-      <div class="chat-header">
-        <div class="avatar">H<div class="status-indicator"></div></div>
-        <div class="header-info"><h3>Hakeem Assistant</h3><p>Online • Replies instantly</p></div>
-      </div>
-      <div id="chat-box">
-        <div class="message ai">
-          <div class="bubble">
-            Hello! I'm the Hakeem AI Assistant. <br>How can I help you today?
-            <span class="timestamp">Just now</span>
+      useEffect(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+      }, [messages, isTyping, view]);
+
+      const addSystemMessage = (text) => {
+        const sysMsg = {
+          id: Date.now().toString(),
+          role: 'ai',
+          text: text,
+          time: new Date(),
+          isSystem: true
+        };
+        setMessages(prev => [...prev, sysMsg]);
+      };
+
+      const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      };
+
+      const handleFileUpload = (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        setTimeout(() => {
+          const fileData = { name: file.name, type: file.type, size: file.size };
+          setUploadedFile(fileData);
+          setIsUploading(false);
+          
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            role: 'user',
+            text: `Source attached: ${file.name}`,
+            time: new Date(),
+            file: fileData
+          }]);
+          
+          setTimeout(() => {
+            addSystemMessage(`Source Indexed: Contextual mapping for "${file.name}" is now live. System is ready for context-aware analysis.`);
+          }, 800);
+
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        }, 1200);
+      };
+
+      const handleSend = (overrideText) => {
+        const text = (overrideText || input).trim();
+        if (!text) return;
+
+        setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', text, time: new Date() }]);
+        setInput('');
+        setIsTyping(true);
+
+        setTimeout(() => {
+          let response = "Query acknowledged. Technical parameters are being processed.";
+          const query = text.toLowerCase();
+          if (query.includes('pricing')) response = "Pricing: Starter ($29/mo), Pro ($99/mo), Enterprise (Custom). All tiers include 256-bit encryption.";
+          else if (query.includes('security')) response = "Our infrastructure is SOC2 compliant, utilizing AES-256 at rest and TLS 1.3 in transit.";
+          else if (uploadedFile) response = `I've analyzed the uploaded document "${uploadedFile.name}". It appears to be a ${uploadedFile.type.split('/')[1] || 'document'} file. How can I specifically help with its content?`;
+
+          setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'ai', text: response, time: new Date() }]);
+          setIsTyping(false);
+        }, 1000);
+      };
+
+      const Nav = () => (
+        <nav className="fixed top-0 w-full z-50 border-b border-white/[0.03] bg-black/70 backdrop-blur-xl px-8 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setView('home')}>
+            <div className="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center shadow-lg shadow-indigo-600/20">
+              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span className="font-outfit font-bold tracking-tight text-lg uppercase text-white">Hakeem AI</span>
           </div>
-        </div>
-      </div>
+          <div className="flex items-center gap-10">
+            <button onClick={() => setView('solutions')} className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:text-white ${view === 'solutions' ? 'text-indigo-400' : 'text-zinc-500'}`}>Solutions</button>
+            <button onClick={() => setView('security')} className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:text-white ${view === 'security' ? 'text-indigo-400' : 'text-zinc-500'}`}>Security</button>
+            <button onClick={() => setView('documentation')} className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-all hover:text-white ${view === 'documentation' ? 'text-indigo-400' : 'text-zinc-500'}`}>Docs</button>
+            <button onClick={() => setView('console')} className="bg-white text-black px-6 py-2 rounded-full text-[10px] font-extrabold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all">Console</button>
+          </div>
+        </nav>
+      );
 
-      <div class="typing" id="typing-indicator">
-        <div class="typing-dots">
-          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-        </div>
-      </div>
+      const Footer = () => (
+        <footer className="border-t border-white/[0.03] py-16 px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-zinc-600 bg-[#020202]">
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Hakeem AI © 2024</span>
+            <span className="text-[10px] uppercase tracking-widest text-zinc-700">Enterprise Orchestration Division</span>
+          </div>
+          <div className="flex gap-10 text-[10px] font-bold uppercase tracking-widest">
+            <a href="#" className="hover:text-indigo-400 transition-colors">Privacy Protocol</a>
+            <a href="#" className="hover:text-indigo-400 transition-colors">Service Terms</a>
+            <a href="#" className="hover:text-indigo-400 transition-colors">Audit logs</a>
+          </div>
+        </footer>
+      );
 
-      <div class="input-container">
-        <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
-        <button class="send-btn" id="send-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"></line>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
+      const DocSectionContent = () => {
+        switch (activeDocSection) {
+          case 'quick-start':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Quick Start Guide</h3>
+                <p className="text-zinc-500 mb-8 leading-relaxed">Initialize your Hakeem AI instance in minutes. Our orchestration layer is designed for rapid deployment.</p>
+                <div className="bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 font-mono text-xs text-indigo-300 mb-8">
+                  <pre>{`npm install -g @hakeem/cli\nhakeem init --project-id <YOUR_PROJECT_ID>\nhakeem up`}</pre>
+                </div>
+              </div>
+            );
+          case 'architecture':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Architecture</h3>
+                <p className="text-zinc-500 leading-relaxed mb-6">Hakeem operates on a distributed sovereign model, ensuring that enterprise data never leaves your defined security boundary.</p>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <h4 className="font-bold mb-2">Tier 1: Sovereign Edge</h4>
+                    <p className="text-sm text-zinc-500">Local inference nodes for high-speed API processing.</p>
+                  </div>
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <h4 className="font-bold mb-2">Tier 2: Global Orchestrator</h4>
+                    <p className="text-sm text-zinc-500">Secure routing and cross-service coordination.</p>
+                  </div>
+                </div>
+              </div>
+            );
+          case 'terminology':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Key Terminology</h3>
+                <div className="space-y-4">
+                  <div><span className="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Synthesis</span><p className="text-zinc-500 text-sm">The automated merging of document context with LLM inference.</p></div>
+                  <div><span className="text-indigo-400 font-bold uppercase text-[10px] tracking-widest">Orchestration</span><p className="text-zinc-500 text-sm">Coordinating multi-service API calls through a single autonomous agent.</p></div>
+                </div>
+              </div>
+            );
+          case 'auth':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Authentication</h3>
+                <p className="text-zinc-500 leading-relaxed mb-8">All Hakeem endpoints require a valid Bearer Token obtained from your dashboard or via the CLI command `hakeem login`.</p>
+                <div className="bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 font-mono text-xs text-indigo-300">
+                  <pre>{`Authorization: Bearer hk_live_xxxxxxxxxxxx`}</pre>
+                </div>
+              </div>
+            );
+          case 'endpoints':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">API Endpoints</h3>
+                <ul className="space-y-4">
+                  <li className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between">
+                    <span className="font-mono text-xs">POST /v1/synthesis</span>
+                    <span className="text-[10px] font-bold text-emerald-500">ACTIVE</span>
+                  </li>
+                  <li className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-center justify-between">
+                    <span className="font-mono text-xs">GET /v1/orchestrate/status</span>
+                    <span className="text-[10px] font-bold text-emerald-500">ACTIVE</span>
+                  </li>
+                </ul>
+              </div>
+            );
+          case 'webhooks':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Webhooks</h3>
+                <p className="text-zinc-500 mb-8">Receive real-time notifications for synthesis completion or security audits.</p>
+                <div className="bg-[#0a0a0b] border border-white/5 rounded-2xl p-6 font-mono text-xs text-indigo-300">
+                  <pre>{`{\n  "event": "synthesis.success",\n  "timestamp": "2024-03-20T12:00:00Z"\n}`}</pre>
+                </div>
+              </div>
+            );
+          case 'sdk':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">SDK Reference</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl text-center hover:border-indigo-500/50 transition-all cursor-pointer">
+                    <span className="font-bold text-xs">PYTHON SDK</span>
+                  </div>
+                  <div className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl text-center hover:border-indigo-500/50 transition-all cursor-pointer">
+                    <span className="font-bold text-xs">NODE.JS SDK</span>
+                  </div>
+                </div>
+              </div>
+            );
+          case 'console-usage':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Console Usage</h3>
+                <p className="text-zinc-500 mb-6">The Console Terminal allows for direct interaction with your autonomous agents. Use natural language commands to query indexed documents.</p>
+                <ul className="list-disc pl-5 text-zinc-500 text-sm space-y-2">
+                  <li>Use 'Inject Source' to upload PDF/TXT documents.</li>
+                  <li>Click quick action chips to send pre-formatted commands.</li>
+                  <li>Monitor active context in the footer bar.</li>
+                </ul>
+              </div>
+            );
+          case 'troubleshooting':
+            return (
+              <div className="animate-fade-in">
+                <h3 className="font-outfit text-3xl font-bold mb-6">Troubleshooting</h3>
+                <div className="space-y-4">
+                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <h5 className="font-bold text-indigo-400 mb-1">Index Timeout?</h5>
+                    <p className="text-xs text-zinc-500">Ensure file size is under 10MB and formatted as plain text or standard PDF.</p>
+                  </div>
+                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <h5 className="font-bold text-indigo-400 mb-1">Auth Error 401?</h5>
+                    <p className="text-xs text-zinc-500">Verify your bearer token in the headers is current and has 'read:synthesis' scope.</p>
+                  </div>
+                </div>
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
 
-  <script>
-    const chatBox = document.getElementById("chat-box");
-    const userInput = document.getElementById("user-input");
-    const sendBtn = document.getElementById("send-btn");
-    const typingIndicator = document.getElementById("typing-indicator");
-    const uploadBtn = document.getElementById("upload-btn");
-    const docUpload = document.getElementById("doc-upload");
+      if (view === 'home') {
+        return (
+          <div className="min-h-screen bg-[#050505] text-white selection:bg-indigo-500/30">
+            <Nav />
+            <section className="pt-60 pb-32 px-8 max-w-6xl mx-auto flex flex-col items-center text-center">
+              <div className="inline-block px-5 py-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 mb-10 animate-fade-in">
+                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-[0.4em]">Next-Gen Technical Orchestration</span>
+              </div>
+              <h1 className="font-outfit text-7xl md:text-9xl font-bold tracking-tight mb-10 leading-[0.85] max-w-5xl">Autonomous Logic for Enterprise Scale.</h1>
+              <p className="text-zinc-500 text-xl md:text-2xl max-w-3xl mb-14 font-medium leading-relaxed">Hakeem AI bridges the gap between fragmented legacy systems and modern autonomous agents. Secure, compliant, and strictly technical.</p>
+              <div className="flex flex-col sm:flex-row gap-6">
+                <button onClick={() => setView('console')} className="px-10 py-5 bg-indigo-600 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/40 transition-all transform hover:-translate-y-1">Initialize Console</button>
+                <button onClick={() => setView('solutions')} className="px-10 py-5 bg-white/5 border border-white/10 rounded-full font-bold uppercase tracking-widest text-[11px] hover:bg-white/10 transition-all">View Capabilities</button>
+              </div>
+            </section>
+            <Footer />
+          </div>
+        );
+      }
 
-    const responses = {
-      "hello": "Hello there! Ready to assist you with your automation needs.",
-      "hi": "Hi! Ask me anything about our tools or pricing.",
-      "pricing": "We have three tiers: <br>• Starter: $29/mo<br>• Pro: $99/mo<br>• Enterprise: Custom pricing. Which one fits you?",
-      "software": "Our software specializes in API integration, data visualization, and workflow automation scripts.",
-      "guide": "I can send you the PDF guide right now.",
-      "contact": "You can reach our human engineering team at support@hakeem.ai",
-      "default": "I didn't quite catch that. Try clicking one of the quick questions above!"
+      if (view === 'solutions') {
+        return (
+          <div className="min-h-screen bg-[#050505] text-white">
+            <Nav />
+            <section className="pt-48 pb-32 px-8 max-w-6xl mx-auto">
+              <h2 className="font-outfit text-6xl font-bold mb-12">Engineered Solutions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-10 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-all">
+                  <h3 className="font-outfit text-3xl font-bold mb-4">API Orchestration</h3>
+                  <p className="text-zinc-500 leading-relaxed">Dynamic proxying and automated routing for fragmented legacy microservices.</p>
+                </div>
+                <div className="p-10 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-all">
+                  <h3 className="font-outfit text-3xl font-bold mb-4">Contextual Synthesis</h3>
+                  <p className="text-zinc-500 leading-relaxed">Transforming internal engineering documentation into live autonomous knowledge bases.</p>
+                </div>
+              </div>
+            </section>
+            <Footer />
+          </div>
+        );
+      }
+
+      if (view === 'security') {
+        return (
+          <div className="min-h-screen bg-[#050505] text-white">
+            <Nav />
+            <section className="pt-48 pb-32 px-8 max-w-6xl mx-auto">
+              <h2 className="font-outfit text-6xl font-bold mb-12">Security Protocol</h2>
+              <p className="text-zinc-500 text-xl max-w-3xl mb-16 leading-relaxed">Zero-trust architecture designed for sovereign enterprise data management.</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {['AES-256 Encryption', 'SOC2 Compliance', 'Audit Transparency'].map(item => (
+                  <div key={item} className="p-8 border border-white/5 rounded-2xl bg-white/[0.01]">
+                    <h4 className="font-bold text-indigo-400 mb-2">{item}</h4>
+                    <p className="text-sm text-zinc-600">Strict protocol adherence for enterprise-grade integrity.</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <Footer />
+          </div>
+        );
+      }
+
+      if (view === 'documentation') {
+        return (
+          <div className="min-h-screen bg-[#050505] text-white">
+            <Nav />
+            <section className="pt-48 pb-32 px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
+              <aside className="w-full lg:w-64 flex-shrink-0 sticky top-48 h-fit space-y-12">
+                <div>
+                  <h5 className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-6">Introduction</h5>
+                  <ul className="space-y-4 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">
+                    <li onClick={() => setActiveDocSection('quick-start')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'quick-start' ? 'text-white' : ''}`}>Quick Start</li>
+                    <li onClick={() => setActiveDocSection('architecture')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'architecture' ? 'text-white' : ''}`}>Architecture</li>
+                    <li onClick={() => setActiveDocSection('terminology')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'terminology' ? 'text-white' : ''}`}>Key Terminology</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-6">API Integration</h5>
+                  <ul className="space-y-4 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">
+                    <li onClick={() => setActiveDocSection('auth')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'auth' ? 'text-white' : ''}`}>Authentication</li>
+                    <li onClick={() => setActiveDocSection('endpoints')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'endpoints' ? 'text-white' : ''}`}>Endpoints</li>
+                    <li onClick={() => setActiveDocSection('webhooks')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'webhooks' ? 'text-white' : ''}`}>Webhooks</li>
+                    <li onClick={() => setActiveDocSection('sdk')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'sdk' ? 'text-white' : ''}`}>SDK Reference</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-6">Support</h5>
+                  <ul className="space-y-4 text-[11px] font-bold text-zinc-500 uppercase tracking-widest">
+                    <li onClick={() => setActiveDocSection('console-usage')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'console-usage' ? 'text-white' : ''}`}>Console usage</li>
+                    <li onClick={() => setActiveDocSection('troubleshooting')} className={`cursor-pointer transition-all hover:text-white ${activeDocSection === 'troubleshooting' ? 'text-white' : ''}`}>Troubleshooting</li>
+                  </ul>
+                </div>
+              </aside>
+              <main className="flex-1 max-w-4xl min-h-[500px]">
+                <DocSectionContent />
+              </main>
+            </section>
+            <Footer />
+          </div>
+        );
+      }
+
+      if (view === 'console') {
+        return (
+          <div className="flex flex-col h-screen max-w-5xl mx-auto border-x border-white/[0.03] bg-[#050505] text-zinc-300">
+            <header className="px-8 py-6 flex items-center justify-between border-b border-white/[0.03] bg-black/40 backdrop-blur-md">
+              <div className="flex items-center gap-4">
+                <button onClick={() => setView('home')} className="p-2 hover:bg-white/5 rounded transition-colors group">
+                  <svg className="w-4 h-4 text-zinc-500 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <div>
+                  <h1 className="text-[11px] font-bold text-white uppercase tracking-[0.2em]">Console Terminal</h1>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span className="text-[8px] font-bold text-emerald-500/80 uppercase tracking-widest">Session Active</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".pdf,.txt" className="hidden" />
+                <button onClick={() => fileInputRef.current?.click()} disabled={isUploading} className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-[9px] font-bold uppercase tracking-widest hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all">
+                  {isUploading ? 'INDEXING...' : 'INJECT SOURCE'}
+                </button>
+              </div>
+            </header>
+
+            <main ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-12 no-scrollbar scroll-smooth">
+              {messages.map((msg) => (
+                <div key={msg.id} className={`flex gap-8 max-w-3xl animate-fade-in ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}>
+                  <div className={`w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold uppercase tracking-tighter shadow-xl ${msg.role === 'ai' ? (msg.isSystem ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-indigo-600 text-white shadow-indigo-600/20') : 'bg-zinc-800 text-zinc-500 border border-white/5'}`}>
+                    {msg.role === 'ai' ? (msg.isSystem ? 'S' : 'H') : 'U'}
+                  </div>
+                  <div className={`flex flex-col space-y-2 ${msg.role === 'user' ? 'items-end text-right' : 'items-start'}`}>
+                    <div className={`px-6 py-5 rounded-3xl text-[14px] leading-relaxed shadow-sm overflow-hidden ${msg.role === 'ai' ? (msg.isSystem ? 'bg-emerald-500/[0.04] text-emerald-100/90 italic' : 'bg-white/[0.03] border border-white/[0.05] text-zinc-200') : 'bg-indigo-600 text-white shadow-2xl shadow-indigo-500/20'}`}>
+                      {msg.file && (
+                        <div className="mb-4 p-4 bg-black/30 border border-white/10 rounded-2xl flex items-center gap-4 animate-fade-in max-w-sm">
+                          <div className="w-10 h-10 bg-indigo-600/10 rounded-lg flex items-center justify-center text-indigo-400 border border-indigo-500/20">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                          </div>
+                          <div className="flex-1 min-w-0 text-left">
+                            <div className="text-[12px] font-bold truncate text-white">{msg.file.name}</div>
+                            <div className="text-[10px] text-zinc-500 uppercase tracking-widest">{msg.file.type.split('/')[1] || 'DOC'} • {formatFileSize(msg.file.size)}</div>
+                          </div>
+                          <div className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded">
+                            <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></div>
+                            <span className="text-[8px] font-extrabold text-emerald-400 uppercase">INDEXED</span>
+                          </div>
+                        </div>
+                      )}
+                      {msg.text}
+                    </div>
+                    <span className="text-[9px] font-bold text-zinc-700 uppercase tracking-widest px-2">{msg.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex gap-8 animate-fade-in">
+                  <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-[10px] text-white font-bold shadow-xl shadow-indigo-600/20">H</div>
+                  <div className="bg-white/[0.03] border border-white/[0.05] px-6 py-5 rounded-3xl">
+                    <div className="flex gap-2">
+                      <div className="w-1.5 h-1.5 bg-indigo-400/50 rounded-full animate-bounce"></div>
+                      <div className="w-1.5 h-1.5 bg-indigo-400/50 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                      <div className="w-1.5 h-1.5 bg-indigo-400/50 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </main>
+
+            <footer className="p-10 space-y-6 bg-[#020202] border-t border-white/[0.03]">
+              <div className="flex flex-wrap items-center gap-4">
+                {uploadedFile && (
+                  <div className="flex items-center gap-3 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full animate-fade-in">
+                    <span className="text-[9px] text-indigo-400 font-bold uppercase tracking-widest">Active Context:</span>
+                    <span className="text-[10px] text-zinc-300 font-medium truncate max-w-[200px]">{uploadedFile.name}</span>
+                    <button onClick={() => setUploadedFile(null)} className="ml-2 text-zinc-600 hover:text-white transition-colors">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                )}
+                <div className="flex gap-3 overflow-x-auto no-scrollbar py-1">
+                  {['Pricing Architecture', 'Security Protocols', 'API Integration'].map((label) => (
+                    <button key={label} onClick={() => handleSend(label)} className="px-5 py-2.5 rounded-full bg-white/5 border border-white/5 text-[9px] font-bold text-zinc-500 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all uppercase tracking-widest whitespace-nowrap">{label}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="relative group">
+                <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={uploadedFile ? "Ask about the document..." : "Execute technical command..."} className="w-full bg-[#0a0a0c] border border-white/5 rounded-2xl px-8 py-5 text-sm text-white placeholder:text-zinc-800 outline-none focus:border-indigo-500/40 transition-all shadow-inner" />
+                <button onClick={() => handleSend()} disabled={!input.trim()} className="absolute right-3 top-1/2 -translate-y-1/2 bg-indigo-600 p-2.5 rounded-xl text-white hover:bg-indigo-500 disabled:opacity-20 transition-all shadow-xl shadow-indigo-600/20">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      return null;
     };
 
-    const downloads = { "guide": { name: "Hakeem_Setup_Guide.pdf", link: "#" } };
-
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keypress", e => { if(e.key==="Enter") sendMessage(); });
-
-    function askQuestion(topic) {
-      let text="";
-      if(topic==='pricing') text="What are the pricing plans?";
-      else if(topic==='software') text="Tell me about the software.";
-      else if(topic==='guide') text="Can I get the user guide?";
-      else if(topic==='contact') text="How do I contact support?";
-      if(text) sendMessage(text);
-    }
-
-    function sendMessage(text) {
-      const inputText = text || userInput.value.trim();
-      if(!inputText) return;
-      addMessage(inputText, "user");
-      if(!text) userInput.value="";
-      typingIndicator.classList.add("active");
-      scrollToBottom();
-      const delay = 1000 + Math.random()*500;
-      setTimeout(()=>{ respondAI(inputText.toLowerCase()); }, delay);
-    }
-
-    function addMessage(text, sender, downloadHTML="") {
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add("message", sender);
-      const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-      msgDiv.innerHTML=`<div class="bubble">${text}${downloadHTML}<span class="timestamp">${time}</span></div>`;
-      chatBox.appendChild(msgDiv);
-      scrollToBottom();
-    }
-
-    function scrollToBottom(){ chatBox.scrollTop = chatBox.scrollHeight; }
-
-    async function respondAI(input){
-      try{
-        typingIndicator.classList.add("active");
-        const res = await fetch("http://localhost:3000/chat", {
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({message:input})
-        });
-        const data = await res.json();
-        typingIndicator.classList.remove("active");
-
-        let downloadHTML = "";
-        if(downloads[input]) {
-          const d = downloads[input];
-          downloadHTML=`<a href="${d.link}" class="download-link" download="${d.name}">⬇ Download ${d.name}</a>`;
-        }
-
-        const replyText = data.reply || responses[input] || responses["default"];
-        addMessage(replyText, "ai", downloadHTML);
-      }catch(err){
-        typingIndicator.classList.remove("active");
-        console.error(err);
-        addMessage("⚠️ Sorry, AI is unavailable right now.", "ai");
-      }
-    }
-
-    // --- Document Upload ---
-    uploadBtn.addEventListener("click", async()=>{
-      const file = docUpload.files[0];
-      if(!file){ alert("Please select a file first!"); return; }
-      typingIndicator.classList.add("active");
-      const formData = new FormData();
-      formData.append("file", file);
-      try{
-        const res = await fetch("http://localhost:3000/upload", { method:"POST", body:formData });
-        const data = await res.json();
-        typingIndicator.classList.remove("active");
-        if(data.success){ addMessage(`📄 Document "${file.name}" uploaded successfully! You can now ask questions about it.`, "ai"); }
-        else{ addMessage("⚠️ Upload failed. Try again.", "ai"); }
-      }catch(err){
-        typingIndicator.classList.remove("active");
-        console.error(err);
-        addMessage("⚠️ Upload error occurred.", "ai");
-      }
-    });
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
   </script>
 </body>
 </html>
